@@ -34,13 +34,25 @@ if (isset($_POST)) {
         $errors[] = "Confirm password dosn't match.";
     }
 
+    //Check if email already exists
+    if (!empty($email)) {
+        $conn = db_connect();
+        $sanitizeEmail = mysqli_real_escape_string($conn, $email);
+        $emailSql = "SELECT id FROM `users` WHERE `email` = '{$sanitizeEmail}'";
+        $sqlResult = mysqli_query($conn, $emailSql);
+        $emailRow = mysqli_num_rows($sqlResult);
+        if ($emailRow > 0) {
+            $errors[] = "Email Address already exists.";
+        }
+        db_close($conn);
+    }
+
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
         header('location:' . SIGNUPURL);
         exit();
     }
-
-    //Saving data if all is good
+    //Saving data if all is good 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $sql = "INSERT INTO `users` (first_name,last_name,email,password) VALUES ('{$fristname}','{$lastname}','{$email}','{$passwordHash}')";
 
