@@ -68,7 +68,7 @@ include_once './common/header.php';
 
                     </form>
                 </article>
-                <div class="border-top card-body text-center">Have an account? <a href="/contactbook/login.php">Log In</a></div>
+                <div class="border-top card-body text-center">Have an account? <a href=<?php echo LOGINURL ?>>Log In</a></div>
             </div>
         </div>
 
