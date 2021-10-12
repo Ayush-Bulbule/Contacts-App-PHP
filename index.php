@@ -1,6 +1,6 @@
 <?php include_once './common/header.php'
 ?>
-<div class="container">
+<div class="container box">
     <?php
     if (!empty($_SESSION['user'])) {
     ?>
