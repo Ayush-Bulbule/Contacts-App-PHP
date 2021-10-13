@@ -41,25 +41,30 @@
                 <a href=<?php echo SITEURL ?> style="font-size:1.5rem;" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <i class="fa fa-address-book me-3"></i> iContacts
                 </a>
+                <?php
+                if (!empty($user)) {
+                ?>
+                    <ul class="nav ms-3 col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href=<?php echo ADDCONTACT ?> class="nav-link px-2 text-white">Add Contact</a></li>
+                        <li><a href=<?php echo PROFILEURL ?> class="nav-link px-2 text-white">Profile</a></li>
+                        <li><a href=<?php echo LOGOUTURL ?> class="nav-link px-2 text-white">Logout</a></li>
+                    </ul>
+
+                <?php
+                }
+                ?>
                 <form class="col-12 col-lg-auto  ms-auto mb-3 mb-lg-0 me-lg-3">
                     <input type="search" class="fa form-control p-2 form-control-dark" placeholder="&#xf002; Search..." aria-label="Search">
                 </form>
                 <?php
-                if (!empty($user)) {
+                if (empty($user)) {
                 ?>
-                    <div class="text-end">
-                        <a href=<?php echo PROFILEURL ?> class=" text-light">Profile</a>
-                        <a href=<?php echo LOGOUTURL ?> class="text-light ms-3">Logout</a>
-                        <!-- <button type="button" class="btn btn-outline-light me-2">Login</button> -->
-                    <?php
-                } else {
-                    ?>
-                        <a type="button" href=<?php echo LOGINURL ?> class="btn-sm btn btn-warning">Login</a>
-                        <a type="button" href=<?php echo SIGNUPURL ?> class="btn-sm ms-2 btn-outline-warning btn">Sign-up</a>
-                    </div>
-                <?php
-                }
-                ?>
+                    <a type="button" href=<?php echo LOGINURL ?> class="btn-sm btn btn-warning">Login</a>
+                    <a type="button" href=<?php echo SIGNUPURL ?> class="btn-sm ms-2 btn-outline-warning btn">Sign-up</a>
             </div>
+        <?php
+                }
+        ?>
+        </div>
         </div>
     </header>
