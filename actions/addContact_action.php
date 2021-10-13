@@ -6,7 +6,7 @@ require_once '../includes/db.php';
 $errors = [];
 
 
-if (isset($_POST)) {
+if (isset($_POST) && !empty($_SESSION['user'])) {
     // print_arr($_POST);
     $fname = trim($_POST['fname']);
     $lname = trim($_POST['lname']);
@@ -71,11 +71,22 @@ if (isset($_POST)) {
         } else {
             $errors[] = "Invalid file type!";
         }
+
+        $ownerId = (!empty($_SESSION['user']) && !empty($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 0);
+        $sql = "INSERT INTO `contacts`(`first_name`, `last_name`, `email`, `phone`, `address`, `photo`, `owner_id`) VALUES ('{$fname}','{$lname}','{$email}','{$phone}','{$address}','{$photoName}','{$ownerId}')";
+
+
+        $conn = db_connect();
+        if (mysqli_query($conn, $sql)) {
+            db_close($conn);
+            $message = "Contact has been saved!!";
+            $_SESSION['success'] = $message;
+            header('location:' . ADDCONTACT);
+            exit();
+        }
     }
 
 
 
     // $_SESSION['success'] = "Data Get sucess" . print_r($_FILES);
-    // header('location:' . ADDCONTACT);
-    // exit();
 }
