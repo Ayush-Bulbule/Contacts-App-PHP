@@ -60,7 +60,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Photo</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" name="photo" type="file" id="formFile">
                             </div>
                             <div class="form-group mb-2">
                                 <input type="hidden" name="contactid" value="" />

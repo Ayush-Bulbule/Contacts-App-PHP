@@ -14,6 +14,8 @@ if (isset($_POST)) {
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
     // $file = $_FILES['']
+    $photofile = !empty($_FILES['photo']) ? $_FILES['photo'] : [];
+
 
     if (empty($fname)) {
         $errors[] = "Frist name could not be empty!!";
@@ -43,7 +45,37 @@ if (isset($_POST)) {
         header('location:' . ADDCONTACT);
         exit();
     }
-    $_SESSION['success'] = "Data Get sucess" . print_r($_FILES);
-    header('location:' . ADDCONTACT);
-    exit();
+
+    //Uploading User Photo
+    $photoName = '';
+    print_arr($photofile);
+    if (!empty($photofile['name'])) {
+        $fileTempPath = $photofile['tmp_name'];
+        $filename = $photofile['name'];
+        $fileNameCmp = explode('.', $filename);
+        $fileExtn = strtolower(end($fileNameCmp));
+        $fileNewName = md5(time() . $filename) . '.' . $fileExtn;
+        $photoName = $fileNewName;
+
+        //allowed extensions
+        $allowed_Extns = ["jpg", "jpeg", "png", "gif"];
+
+        if (in_array($fileExtn, $allowed_Extns)) {
+            $uploadFileDir = "../uploads/photos/";
+            $destinationFilePath = $uploadFileDir . $photoName;
+            if (move_uploaded_file($fileTempPath, $destinationFilePath)) {
+                $success = "File Uploaded Success!";
+            } else {
+                $errors[] = "File not uploaded";
+            }
+        } else {
+            $errors[] = "Invalid file type!";
+        }
+    }
+
+
+
+    // $_SESSION['success'] = "Data Get sucess" . print_r($_FILES);
+    // header('location:' . ADDCONTACT);
+    // exit();
 }
