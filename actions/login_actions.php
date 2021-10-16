@@ -34,6 +34,7 @@ if (isset($_POST)) {
                 $passwordInDb = $userInfo['password'];
                 if (password_verify($password, $passwordInDb)) {
                     $_SESSION['user'] = $userInfo;
+                    $_SESSION['success'] = "Login Success!";
                     header('location:' . SITEURL);
                 } else {
                     $errors[] = "Login Failed";

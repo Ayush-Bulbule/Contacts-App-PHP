@@ -13,21 +13,33 @@ if (empty($userId) || $userId == 0) {
 ?>
 <div class="container box">
     <?php
-    if (!empty($_SESSION['user'])) {
+    if (!empty($_SESSION['success'])) {
     ?>
-        <div class="alert alert-success">
+        <div class="alert p-2 m-2 alert-success alert-dismissible fade show">
             <?php
             echo "Login Success!"
             ?>
+            <button type="button" class="p-2 m-0 btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php
         unset($_SESSION['success']);
     }
 
-    $contactsSql = "SELECT * FROM `contacts` WHERE `owner_id` = $userId ORDER BY first_name ASC LIMIT 0,10";
+
+    //get user's contacts
+    $currentPage = !empty($_GET['page']) ? $_GET['page'] : 1;
+    $limit = 2;
+    $offset = ($currentPage - 1) * $limit;
+
+    $countSql = "SELECT * FROM `contacts` WHERE `owner_id` = $userId";
+    $contactsSql = "SELECT * FROM `contacts` WHERE `owner_id` = $userId ORDER BY first_name ASC LIMIT {$offset}, {$limit}";
     $conn = db_connect();
     $contactsResult = mysqli_query($conn, $contactsSql);
     $contactsNumRows = mysqli_num_rows($contactsResult);
+
+    $countResult = mysqli_query($conn, $countSql);
+    $numRows = mysqli_num_rows($countResult);
+
 
     if ($contactsNumRows > 0) {
 
@@ -63,7 +75,14 @@ if (empty($userId) || $userId == 0) {
 
             </tbody>
         </table>
+
+        <?php
+
+        getPagination($numRows, $currentPage);
+
+        ?>
 </div>
 
-<?php include_once './common/footer.php'
+<?php
+include_once './common/footer.php'
 ?>
