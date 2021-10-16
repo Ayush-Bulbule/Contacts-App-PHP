@@ -81,7 +81,7 @@ if (isset($_POST) && !empty($_SESSION['user'])) {
             db_close($conn);
             $message = "Contact has been saved!!";
             $_SESSION['success'] = $message;
-            header('location:' . ADDCONTACT);
+            header('location:' . SITEURL);
             exit();
         }
     }
